@@ -1,0 +1,48 @@
+<mat-toolbar color="primary">
+  <span>Todo App</span>
+</mat-toolbar>
+
+<div class="todo-container">
+  <!-- Input + Button -->
+  <mat-card>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Enter task</mat-label>
+      <input matInput [(ngModel)]="newTask" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="addTodo()">
+      {{ editIndex !== null ? 'Update' : 'Add' }}
+    </button>
+  </mat-card>
+
+  <!-- Filter Tabs -->
+  <mat-tab-group
+    [(selectedIndex)]="filterIndex"
+    (selectedIndexChange)="changeFilter($event)"
+  >
+    <mat-tab label="All"></mat-tab>
+    <mat-tab label="Active"></mat-tab>
+    <mat-tab label="Completed"></mat-tab>
+  </mat-tab-group>
+
+  <!-- Todo List -->
+  <div *ngFor="let todo of filteredTodos; let i = index">
+    <mat-card class="todo-item">
+      <mat-checkbox
+        [(ngModel)]="todo.completed"
+        (change)="toggleComplete(todo)"
+      >
+        <span [class.completed]="todo.completed">{{ todo.title }}</span>
+      </mat-checkbox>
+
+      <div class="actions">
+        <button mat-icon-button color="accent" (click)="editTodo(i)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteTodo(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>
